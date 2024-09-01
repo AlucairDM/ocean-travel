@@ -1,0 +1,36 @@
+{
+  "name": "ocean-travel",
+  "title": "Ocean Travel",
+  "description": "A module for managing ocean travel and related activities in Foundry VTT.",
+  "version": "1.0.1",
+  "minimumCoreVersion": "11.0.0",  
+  "compatibleCoreVersion": "12.999",  
+  "author": "AlucairDM",
+  "scripts": [
+    "scripts/ocean-travel.js",
+    "scripts/main.js",
+    "scripts/gm-travel.js",
+    "scripts/modifiers-skills.js"
+  ],
+  "packs": [
+    {
+      "name": "MyModuleMacros",
+      "label": "Ocean Travel Macros",
+      "path": "packs/MyModuleMacros.db",
+      "type": "Macro",
+      "system": "pf2e",
+      "module": "ocean-travel"
+    }
+  ],
+ 
+  
+  
+  "templates": [
+    "templates/modifiers-skills.html",
+    "templates/gm-travel.html",
+    "templates/ocean-travel-setup"
+    
+
+  ]
+ 
+}

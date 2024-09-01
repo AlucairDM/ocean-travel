@@ -1,0 +1,232 @@
+<form id="gm-travel-setup">
+  <!-- Form Header -->
+  <div class="form-header">
+    <h2>GM Travel Setup</h2>
+  </div>
+
+  <!-- Crew Section -->
+  <div class="form-section">
+    <h3>Crew Members</h3>
+    <table class="crew-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Actor Name</th>
+          <th>Primary Skill</th>
+          <th>Backup Skill</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each crewData}}
+        <tr>
+          <td>{{this.role}}</td>
+          <td>{{this.actorName}}</td>
+          <td>{{this.primarySkill}}</td>
+          <td>{{this.backupSkill}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Passenger Section -->
+  <div class="form-section">
+    <h3>Passenger Aid</h3>
+    <table class="passenger-table">
+      <thead>
+        <tr>
+          <th>Passenger Name</th>
+          <th>Aids in Role</th>
+          <th>Primary Skill</th>
+          <th>Backup Skill</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each passengerData}}
+        <tr>
+          <td>{{this.actorName}}</td>
+          <td>
+            <select name="aid-{{this.role}}" class="passenger-aid-dropdown" data-index="{{@index}}">
+              <option value="captain">Captain</option>
+              <option value="navigator">Navigator</option>
+              <option value="helmsman">Helmsman</option>
+              <option value="firstMate">First Mate</option>
+              <option value="cook">Cook</option>
+              <option value="bosun">Bosun</option>
+            </select>
+          </td>
+          <td id="primary-skill-{{@index}}">Select a role to see skill</td>
+          <td id="backup-skill-{{@index}}">Select a role to see skill</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Travel Calculation Mode Section -->
+  <div class="form-section">
+    <h3>Travel Calculation Mode</h3>
+    <div class="form-group">
+      <label for="calculation-mode">Select Calculation Mode:</label>
+      <select id="calculation-mode" name="calculation-mode">
+        <option value="">--Select Mode--</option>
+        <option value="time">Time-Based Calculation</option>
+        <option value="distance">Distance-Based Calculation</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Travel Time Section (Initially Hidden) -->
+  <div class="form-section travel-time-section" style="display: none;">
+    <h3>Travel Time</h3>
+    <div class="form-group">
+      <label for="travel-time">Travel Time:</label>
+      <select id="travel-time" name="travel-time">
+        <option value="1 hour">1 hour</option>
+        <option value="12 hours">12 hours</option>
+        <option value="24 hours">24 hours</option>
+        <option value="10 days">10 days</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="custom-days">Custom Days:</label>
+      <input type="number" id="custom-days" min="0" step="1" value="0">
+    </div>
+    <div class="form-group">
+      <label for="custom-hours">Custom Hours:</label>
+      <input type="number" id="custom-hours" min="0" step="1" value="0">
+    </div>
+    <div class="form-group">
+      <label for="night-travel">Night Travel:</label>
+      <input type="checkbox" id="night-travel" name="night-travel" disabled>
+    </div>
+  </div>
+
+  <!-- Distance Section (Initially Hidden) -->
+  <div class="form-section distance-section" style="display: none;">
+    <h3>Distance to Travel</h3>
+    <div class="form-group">
+      <label for="travel-distance">Distance to Travel (nautical miles):</label>
+      <input type="number" id="travel-distance" min="0" step="0.1" value="0">
+    </div>
+  </div>
+
+  <!-- Weather Section -->
+  <div class="form-section">
+    <h3>Weather Conditions</h3>
+    <button type="button" id="generate-weather">Generate Weather</button>
+    <div class="weather-info">
+      <div class="weather-result-box">
+        <strong>Weather Roll Result:</strong>
+        <span id="weather-result">Roll: {{weatherRoll}}</span>
+      </div>
+      <div class="weather-description-box">
+        <strong>Weather Description:</strong>
+        <div id="weather-description">{{weatherDescription}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Difficulty Check Section -->
+  <div class="form-section">
+    <h3>Travel Difficulty Check</h3>
+    <div class="dc-info">
+      <strong>Calculated DC:</strong>
+      <span id="final-dc">{{finalDC}}</span>
+    </div>
+  </div>
+
+  <!-- Form Buttons -->
+  <div class="form-buttons">
+    <button type="button" id="submit-setup">
+      <i class="fas fa-dice-d20"></i> Set Sail!
+    </button>
+  </div>
+</form>
+
+<!-- Inline CSS for refined layout -->
+<style>
+  #gm-travel-setup {
+    width: 100%;
+  }
+
+  .form-header h2 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .form-section {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid var(--border-light-color);
+    border-radius: var(--border-radius);
+    background-color: var(--background-light);
+  }
+
+  .form-group {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .crew-table, .passenger-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+
+  .crew-table th, .crew-table td, .passenger-table th, .passenger-table td {
+    border: 1px solid var(--border-light-color);
+    padding: 5px;
+    text-align: left;
+  }
+
+  .weather-result-box,
+  .weather-description-box {
+    border: 1px solid var(--border-light-color);
+    padding: 5px;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .weather-description-box {
+    min-height: 40px;
+    width: 100%;
+  }
+
+  .form-buttons {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .form-buttons button#submit-setup i {
+    margin-right: 5px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .crew-item, .passenger-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .passenger-item label {
+      width: auto;
+      margin-bottom: 5px;
+    }
+
+    .crew-table, .passenger-table {
+      font-size: 0.9em;
+    }
+
+    .passenger-aid-dropdown, #travel-distance, #custom-days, #custom-hours {
+      width: 100%;
+    }
+
+    .travel-time, .custom-travel-time, .night-travel, .distance-section {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,104 @@
+<!-- Modifiers and Skills Manager Template -->
+<form id="modifiers-skills-window-form">
+  <!-- Form Header -->
+  <div class="form-header">
+    <h2>Modifiers and Skills Manager</h2>
+  </div>
+
+  <!-- Actor Selection -->
+  <div class="form-group">
+    <label for="actor-select">Select Actor:</label>
+    <select id="actor-select">
+      <option value="">-- Choose an Actor --</option>
+      {{#each actors}}
+        <option value="{{this.id}}" {{#ifEquals this.id ../selectedActor.id}}selected{{/ifEquals}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <!-- Skill Selection -->
+  <div class="form-group">
+    <label for="skill-select">Select Skill:</label>
+    <select id="skill-select">
+      {{#each customSkills}}
+        <option value="{{this.key}}">{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <!-- Rank Selection -->
+  <div class="form-group">
+    <label for="skill-rank">Select Rank:</label>
+    <select id="skill-rank">
+      <option value="0">Untrained</option>
+      <option value="1">Trained</option>
+      <option value="2">Expert</option>
+      <option value="3">Master</option>
+      <option value="4">Legendary</option>
+    </select>
+  </div>
+
+  <!-- Assign/Remove Skill Buttons -->
+  <div class="form-group">
+    <button type="button" class="assign-skill">Assign Skill</button>
+    <button type="button" class="remove-skill">Remove Skill</button>
+  </div>
+
+  <!-- Current Skills List -->
+  <div class="skills-list">
+    <h3>Current Skills</h3>
+    <ul>
+      {{#if selectedActor}}
+        {{#each skills}}
+          <li>{{this.name}} ({{this.system.proficient.value}})</li>
+        {{/each}}
+      {{else}}
+        <li>No actor selected.</li>
+      {{/if}}
+    </ul>
+  </div>
+</form>
+
+<style>
+  /* Form styling */
+  .form-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+  }
+
+  select {
+    width: 200px;
+  }
+
+  .skills-list {
+    margin-top: 20px;
+  }
+
+  .skills-list h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .skills-list ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .skills-list li {
+    margin-bottom: 5px;
+  }
+
+  button {
+    margin-right: 10px;
+  }
+</style>
